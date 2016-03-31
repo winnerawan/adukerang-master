@@ -21,42 +21,56 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import co.ipb.adukerang.R;
 import co.ipb.adukerang.activity.DashboardActivity;
+import co.ipb.adukerang.activity.ProfileActivity;
 import co.ipb.adukerang.adapter.ListKeluhanAdapter;
+import co.ipb.adukerang.adapter.ListKeluhanKuAdapter;
 import co.ipb.adukerang.controller.AppConfig;
 import co.ipb.adukerang.controller.AppController;
+import co.ipb.adukerang.handler.SQLiteHandler;
+import co.ipb.adukerang.handler.SessionManager;
 import co.ipb.adukerang.model.Keluhan;
 
 /**
  * Created by winnerawan on 3/26/16.
  */
-public class KeluhanFragment extends ListFragment {
-    private static final String TAG = DashboardActivity.class.getSimpleName();
+public class KeluhanKuFragment extends ListFragment {
+    private static final String TAG = ProfileActivity.class.getSimpleName();
     private ProgressDialog pDialog;
     private List<Keluhan> listKeluhan = new ArrayList<Keluhan>();
-    private ListKeluhanAdapter adapter;
+    private ListKeluhanKuAdapter adapter;
     public JSONObject obj;
     public String selected;
+    private String unique_id;
+    private SQLiteHandler db;
+    private SessionManager session;
 
-    public KeluhanFragment() {
+    public KeluhanKuFragment() {
 
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View viewKeluhan = inflater.inflate(R.layout.keluhan_fragment, container, false);
         ListView lv_keluhan = (ListView) viewKeluhan.findViewById(android.R.id.list);
-        adapter = new ListKeluhanAdapter(this, listKeluhan);
+        adapter = new ListKeluhanKuAdapter(this, listKeluhan);
         lv_keluhan.setAdapter(adapter);
+
+        db = new SQLiteHandler(getActivity().getApplicationContext());
+        session = new SessionManager(getActivity().getApplicationContext());
+
+        HashMap<String, String> user = db.getUserDetails();
+        unique_id = user.get("uid");
 
         pDialog = new ProgressDialog(getActivity());
         pDialog.setMessage("Loading...");
         pDialog.show();
 
         // Creating volley request obj
-        JsonArrayRequest foodReq = new JsonArrayRequest(AppConfig.URL_GET_KELUHAN, new Response.Listener<JSONArray>() {
+        JsonArrayRequest foodReq = new JsonArrayRequest(AppConfig.URL_GET_KELUHANKU+unique_id, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
                 Log.d(TAG, response.toString());
@@ -81,6 +95,7 @@ public class KeluhanFragment extends ListFragment {
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
                 VolleyLog.e("Error: ", error.toString());
+                VolleyLog.wtf(TAG, listKeluhan);
                 hidePDialog();
             }
         });
@@ -114,5 +129,13 @@ public class KeluhanFragment extends ListFragment {
         }
 
     }
-
+    @Override
+    public void
+    setMenuVisibility(final boolean visible) {
+        super.setMenuVisibility(visible);
+        if (visible) {
+            Log.e("fragment Visible","true");
+        }else{
+            Log.e("fragment Visible","false"); }
+    }
 }

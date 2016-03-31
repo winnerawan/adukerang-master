@@ -4,7 +4,9 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.StrictMode;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -39,6 +41,7 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
@@ -50,6 +53,7 @@ import co.ipb.adukerang.controller.AppConfig;
 import co.ipb.adukerang.controller.AppController;
 import co.ipb.adukerang.handler.SQLiteHandler;
 import co.ipb.adukerang.handler.SessionManager;
+import co.ipb.adukerang.helper.HttpRequest;
 import co.ipb.adukerang.helper.SuggestionAdapter;
 
 
@@ -62,11 +66,13 @@ public class LaporActivity extends AppCompatActivity implements View.OnClickList
     private String KEY_ID_BARANG = "id_barang";
     private String KEY_KELUHAN = "keluhan";
     private String KEY_FOTO = "foto";
-    private String KEY_UID = "uid";
+    private String KEY_TEKNISI_ID = "teknisi_id";
+    private String KEY_UNIQUE_ID = "unique_id";
     private Bitmap bitmap;
     private int PICK_IMAGE_REQUEST = 1;
     private SQLiteHandler db;
     private SessionManager session;
+    private String uid,email,teknisi_id,teknisi_gcm_regid;
 
     @InjectView(R.id.autoCompleteTextView) AutoCompleteTextView tv_id_ruang;
     @InjectView(R.id.spItems) Spinner spBarang;
@@ -89,6 +95,15 @@ public class LaporActivity extends AppCompatActivity implements View.OnClickList
         tv_id_ruang.setAdapter(new SuggestionAdapter(this, tv_id_ruang.getText().toString()));
         bChoose.setOnClickListener(this);
         bLapor.setOnClickListener(this);
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+
+        StrictMode.setThreadPolicy(policy);
+        db = new SQLiteHandler(getApplicationContext());
+        session = new SessionManager(getApplicationContext());
+
+        HashMap<String, String> user = db.getUserDetails();
+        uid = user.get("uid");
+        email = user.get("email");
     }
         private void showFileChooser() {
             Intent intent = new Intent();
@@ -116,10 +131,13 @@ public class LaporActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View v) {
         if(v == bChoose){
+            getTeknisi();
             showFileChooser();
         }
         if (v == bLapor) {
+            getTeknisi();
             setKeluhan();
+            sendNotifications();
         }
     }
     public String getStringImage(Bitmap bmp){
@@ -178,7 +196,48 @@ public class LaporActivity extends AppCompatActivity implements View.OnClickList
         });
 
     }
+    private void getTeknisi() {
 
+        String spSelect = ((Spinner)findViewById(R.id.spItems)).getSelectedItem().toString();
+        JsonArrayRequest req = new JsonArrayRequest(AppConfig.URL_GET_TEKNISI_ID + spSelect,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        Log.d(TAG, response.toString());
+
+                        try {
+                            // Parsing json array response
+                            // loop through each json object
+                            //jsonResponse = "";
+                            for (int i = 0; i < response.length(); i++) {
+
+                                JSONObject teknisi = (JSONObject) response
+                                        .get(i);
+
+                                teknisi_id = teknisi.getString("teknisi_id");
+                                teknisi_gcm_regid = teknisi.getString("gcm_regid");
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Toast.makeText(getApplicationContext(),
+                                    "TEKNISI TIDAK ADA: " + e.getMessage(),
+                                    Toast.LENGTH_LONG).show();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "TEKNISI TIDAK ADA" + error.getMessage());
+                Toast.makeText(getApplicationContext(),
+                        error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // Adding request to request queue
+        AppController.getInstance().addToRequestQueue(req);
+    }
     private void setKeluhan(){
         //Showing the progress dialog
         final ProgressDialog loading = ProgressDialog.show(this,"Uploading...","Please wait...",false,false);
@@ -190,6 +249,7 @@ public class LaporActivity extends AppCompatActivity implements View.OnClickList
                         loading.dismiss();
                         //Showing toast message of the response
                         Toast.makeText(LaporActivity.this, s , Toast.LENGTH_LONG).show();
+                        getTeknisi();
                     }
                 },
                 new Response.ErrorListener() {
@@ -215,10 +275,13 @@ public class LaporActivity extends AppCompatActivity implements View.OnClickList
                 Map<String, String> params = new Hashtable<String, String>();
 
                 //Adding parameters
+                getTeknisi();
                 params.put(KEY_FOTO, foto);
                 params.put(KEY_ID_RUANG, id_ruang);
                 params.put(KEY_ID_BARANG, id_barang);
+                params.put(KEY_TEKNISI_ID, teknisi_id);
                 params.put(KEY_KELUHAN, keluhan);
+                params.put(KEY_UNIQUE_ID, uid);
 
                 //returning parameters
                 return params;
@@ -231,5 +294,15 @@ public class LaporActivity extends AppCompatActivity implements View.OnClickList
 
         //Adding request to the queue
         requestQueue.add(stringRequest);
+    }
+
+    //
+    //
+    private void sendNotifications() {
+        Map<String, String> data = new HashMap<String, String>();
+        data.put("id", teknisi_gcm_regid);
+        if (HttpRequest.post(AppConfig.URL_SEND_NOTIF + teknisi_gcm_regid).form(data).created())
+            System.out.print("Notifications Send!");
+        Log.i(TAG, data.toString());
     }
 }

@@ -8,7 +8,7 @@ public class Keluhan {
     public String id_keluhan;
     public String id_barang;
     public String id_teknisi;
-    public int uid;
+    public int unique_id;
     public String keluhan;
     public String foto;
     public String status;
@@ -25,7 +25,7 @@ public class Keluhan {
         this.id_keluhan=id_keluhan;
         this.id_barang=id_barang;
         this.id_teknisi=id_teknisi;
-        this.uid=uid;
+        this.unique_id=unique_id;
         this.keluhan=keluhan;
         this.foto=foto;
         this.status=status;
@@ -64,12 +64,12 @@ public class Keluhan {
         this.id_teknisi = id_teknisi;
     }
 
-    public int getUid() {
-        return uid;
+    public int getUnique_id() {
+        return unique_id;
     }
 
-    public void setUid(int uid) {
-        this.uid = uid;
+    public void setUnique_id(int unique_id) {
+        this.unique_id = unique_id;
     }
 
     public String getKeluhan() {
