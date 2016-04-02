@@ -66,9 +66,10 @@ public class KeluhanFragment extends ListFragment {
                     try {
                         obj = response.getJSONObject(i);
                         Keluhan keluhan = new Keluhan();
-                        keluhan.setId_keluhan(obj.getString("id_keluhan"));
+                        keluhan.setName(obj.getString("name"));
                         keluhan.setFoto(obj.getString("foto"));
                         keluhan.setKeluhan(obj.getString("keluhan"));
+                        keluhan.setProfile_picture(obj.getString("profile_picture"));
                         listKeluhan.add(keluhan);
                     } catch (JSONException e) {
                         e.printStackTrace();

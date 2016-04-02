@@ -90,7 +90,11 @@
             android:name=".GCMIntentService"
             android:enabled="true" />
 
-        <activity android:name=".activity.ComplaintsActivity"></activity>
+        <activity android:name=".activity.ComplaintsActivity" />
+        <activity android:name=".activity.TeknisiActivity" />
+        <activity
+            android:name=".activity.NotifActivity"
+            android:label="@string/pref_header_notifications"></activity>
     </application>
 
 </manifest>

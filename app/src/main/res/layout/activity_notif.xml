@@ -1,132 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:orientation="vertical"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".activity.ProfileActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context="co.ipb.adukerang.activities.NotifActivity">
+        android:layout_height="240dp"
+        android:fitsSystemWindows="true"
+        android:theme="@style/AppTheme.AppBarOverlay">
 
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Ruangan"
-            android:layout_marginLeft="10dip"
-            android:layout_marginRight="10dip"
-            android:layout_marginTop="30dip"
-            android:textSize="8pt"
-            android:textColor="@color/colorPrimary" />
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/toolbar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            android:background="@drawable/side_nav_bar"
+            app:contentScrim="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-        <TextView
-            android:id="@+id/txtRuang"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dip"
-            android:layout_marginBottom="20dip"/>
+            <include layout="@layout/foto_keluhan" />
 
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Barang"
-            android:layout_marginLeft="10dip"
-            android:layout_marginRight="10dip"
-            android:textSize="8pt"
-            android:textColor="@color/colorPrimary"/>
 
-        <TextView
-            android:id="@+id/txtBarang"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dip"
-            android:layout_marginBottom="20dip"/>
 
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Keluhan "
-            android:layout_marginLeft="10dip"
-            android:layout_marginRight="10dip"
-            android:textSize="8pt"
-            android:textColor="@color/colorPrimary"/>
+        </android.support.design.widget.CollapsingToolbarLayout>
+    </android.support.design.widget.AppBarLayout>
 
-        <TextView
-            android:id="@+id/txtKeluhan"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dip"
-            android:layout_marginBottom="20dip"/>
 
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Foto "
-            android:layout_marginLeft="10dip"
-            android:layout_marginRight="10dip"
-            android:textSize="8pt"
-            android:textColor="@color/colorPrimary"/>
+    <include layout="@layout/content_notif" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/imageView"
-            android:layout_margin="10dip"
-            android:layout_marginBottom="20dip"/>
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Status "
-        android:layout_marginLeft="10dip"
-        android:layout_marginRight="10dip"
-        android:textSize="8pt"
-        android:textColor="@color/colorPrimary"/>
-
-    <TextView
-        android:id="@+id/txtStatus"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dip"
-        android:layout_marginBottom="20dip"/>
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Verifikasi "
-            android:layout_marginLeft="10dip"
-            android:layout_marginRight="10dip"
-            android:layout_marginTop="20dip"
-            android:textSize="8pt"
-            android:textColor="@color/colorPrimary"/>
-        <Spinner
-            android:id="@+id/spinner"
-            android:layout_marginLeft="20dip"
-            android:layout_marginRight="10dip"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"/>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center">
-            <Button
-                android:id="@+id/btnLapor"
-                android:layout_width="125dip"
-                android:layout_height="50dip"
-                android:text="Send"
-                android:layout_marginBottom="20dip"
-                android:textColor="#FFFFFF"
-                android:layout_margin="20dip"
-                android:background="@drawable/button"
-                android:layout_gravity="center" />
-
-            <Button
-                android:id="@+id/btnCancel"
-                android:layout_width="125dip"
-                android:layout_height="50dip"
-                android:text="Cancel"
-                android:layout_marginBottom="20dip"
-                android:textColor="#FFFFFF"
-                android:layout_margin="20dip"
-                android:background="@drawable/button" />
-        </LinearLayout>
-    </LinearLayout>
+</android.support.design.widget.CoordinatorLayout>

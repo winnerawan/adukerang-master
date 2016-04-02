@@ -6,9 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.NetworkImageView;
 
 import java.util.List;
 
@@ -56,15 +58,18 @@ public class ListKeluhanAdapter extends BaseAdapter {
 
         if (imageLoader == null)
             imageLoader = AppController.getInstance().getImageLoader();
-        TextView id_keluhan = (TextView) convertView.findViewById(R.id.id_keluhan);
-        CircledNetworkImageView image = (CircledNetworkImageView) convertView.findViewById(R.id.thumbnail);
+        TextView namaPengeluh = (TextView) convertView.findViewById(R.id.id_keluhan);
+        NetworkImageView image = (NetworkImageView) convertView.findViewById(R.id.thumbnail);
         TextView keluhan = (TextView) convertView.findViewById(R.id.keluhan);
+        CircledNetworkImageView avatar = (CircledNetworkImageView) convertView.findViewById(R.id.avatar);
+
 
         Keluhan k = listKeluhan.get(position);
 
         image.setImageUrl(k.getFoto(), imageLoader);
-        id_keluhan.setText(k.getId_keluhan());
+        namaPengeluh.setText(k.getName());
         keluhan.setText(k.getKeluhan());
+        avatar.setImageUrl(k.getProfile_picture(), imageLoader);
 
         return convertView;
     }

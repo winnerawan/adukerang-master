@@ -13,13 +13,16 @@ public class Keluhan {
     public String foto;
     public String status;
     public String keterangan;
+    public String profile_picture;
+    public String name;
 
     public Keluhan() {
 
     }
 
     public Keluhan(String id_ruang, String id_keluhan, String id_barang, String id_teknisi,
-                    int uid, String keluhan, String foto, String status, String keterangan) {
+                    int uid, String keluhan, String foto, String status, String keterangan,
+                    String profile_picture, String name) {
 
         this.id_ruang=id_ruang;
         this.id_keluhan=id_keluhan;
@@ -30,6 +33,9 @@ public class Keluhan {
         this.foto=foto;
         this.status=status;
         this.keterangan=keterangan;
+        this.profile_picture=profile_picture;
+        this.name=name;
+
     }
 
     public String getId_ruang() {
@@ -102,5 +108,21 @@ public class Keluhan {
 
     public void setKeterangan(String keterangan) {
         this.keterangan = keterangan;
+    }
+
+    public String getProfile_picture() {
+        return profile_picture;
+    }
+
+    public void setProfile_picture(String profile_picture) {
+        this.profile_picture = profile_picture;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
