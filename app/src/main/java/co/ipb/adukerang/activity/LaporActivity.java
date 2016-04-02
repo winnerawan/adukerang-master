@@ -139,6 +139,7 @@ public class LaporActivity extends AppCompatActivity implements View.OnClickList
             setKeluhan();
             sendNotifications();
         }
+
     }
     public String getStringImage(Bitmap bmp){
         ByteArrayOutputStream baos = new ByteArrayOutputStream();

@@ -132,14 +132,14 @@ public class DashboardActivity extends AppCompatActivity {
 
         PrimaryDrawerItem profile = new PrimaryDrawerItem().withName(R.string.drawer_profile)
                 .withIcon(R.drawable.ic_menu_profile).withSelectable(false);
-        PrimaryDrawerItem complaints = new PrimaryDrawerItem().withName(R.string.drawer_complaints)
+        PrimaryDrawerItem logout = new PrimaryDrawerItem().withName(R.string.drawer_logout)
                 .withIcon(R.drawable.ic_menu_cekstatus).withSelectable(false);
         PrimaryDrawerItem setting = new PrimaryDrawerItem().withName(R.string.drawer_setting)
                 .withIcon(R.drawable.ic_menu_setting).withSelectable(false);
 
         mDrawer = new DrawerBuilder().withActivity(this).withAccountHeader(header).withToolbar(toolbar)
                 .addDrawerItems(new DividerDrawerItem(),
-                        profile, complaints, setting).withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+                        profile, setting, logout).withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                         switch (position) {
@@ -147,10 +147,10 @@ public class DashboardActivity extends AppCompatActivity {
                                 startActivity(new Intent(DashboardActivity.this, ProfileActivity.class));
                                 break;
                             case 3:
-                                startActivity(new Intent(DashboardActivity.this, ComplaintsActivity.class));
+                                startActivity(new Intent(DashboardActivity.this, SettingsActivity.class));
                                 break;
                             case 4:
-                                startActivity(new Intent(DashboardActivity.this, SettingsActivity.class));
+                                logoutUser();
                         }
                         return true;
                     }

@@ -62,6 +62,7 @@ public class ListKeluhanAdapter extends BaseAdapter {
         NetworkImageView image = (NetworkImageView) convertView.findViewById(R.id.thumbnail);
         TextView keluhan = (TextView) convertView.findViewById(R.id.keluhan);
         CircledNetworkImageView avatar = (CircledNetworkImageView) convertView.findViewById(R.id.avatar);
+        TextView idk = (TextView)convertView.findViewById(R.id.idk);
 
 
         Keluhan k = listKeluhan.get(position);
@@ -70,6 +71,7 @@ public class ListKeluhanAdapter extends BaseAdapter {
         namaPengeluh.setText(k.getName());
         keluhan.setText(k.getKeluhan());
         avatar.setImageUrl(k.getProfile_picture(), imageLoader);
+        idk.setText(k.getId_keluhan());
 
         return convertView;
     }

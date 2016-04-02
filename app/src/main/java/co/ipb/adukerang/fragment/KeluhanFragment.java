@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
@@ -25,6 +26,7 @@ import java.util.List;
 
 import co.ipb.adukerang.R;
 import co.ipb.adukerang.activity.DashboardActivity;
+import co.ipb.adukerang.activity.DetailsActivity;
 import co.ipb.adukerang.adapter.ListKeluhanAdapter;
 import co.ipb.adukerang.controller.AppConfig;
 import co.ipb.adukerang.controller.AppController;
@@ -39,7 +41,6 @@ public class KeluhanFragment extends ListFragment {
     private List<Keluhan> listKeluhan = new ArrayList<Keluhan>();
     private ListKeluhanAdapter adapter;
     public JSONObject obj;
-    public String selected;
 
     public KeluhanFragment() {
 
@@ -93,12 +94,12 @@ public class KeluhanFragment extends ListFragment {
     public void onListItemClick(ListView l, View v, int position, long id) {
         //selected = ((SetanTextView)v.findViewById(R.id.title)).getText().toString();
         //String image = ((Drink)drinkMenus.get(position)).getThumbnailUrl();
+        String selected_idk = ((TextView)v.findViewById(R.id.idk)).getText().toString();
 
-
-        Toast toast = Toast.makeText(getActivity(), selected, Toast.LENGTH_SHORT);
+        Toast toast = Toast.makeText(getActivity(), selected_idk, Toast.LENGTH_SHORT);
         toast.show();
-        //Intent details = new Intent(getActivity(), DetailsActivity.class);
-        //details.putExtra("name", selected);
+        Intent details = new Intent(getActivity(), DetailsActivity.class);
+        details.putExtra("id_keluhan", selected_idk);
         //details.putExtra("image", image);
         //startActivity(details);
     }

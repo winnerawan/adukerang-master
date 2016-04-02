@@ -94,7 +94,11 @@
         <activity android:name=".activity.TeknisiActivity" />
         <activity
             android:name=".activity.NotifActivity"
-            android:label="@string/pref_header_notifications"></activity>
+            android:label="@string/pref_header_notifications" />
+        <activity
+            android:name=".activity.SettingsActivity"
+            android:label="@string/action_settings" />
+        <activity android:name=".activity.DetailsActivity"></activity>
     </application>
 
 </manifest>

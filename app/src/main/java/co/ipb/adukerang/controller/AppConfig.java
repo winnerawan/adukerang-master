@@ -18,6 +18,8 @@ public class AppConfig {
     public static String URL_TEKNISI_NOTIF  = "http://api.winnerawan.net/adukerang/teknisi/get/keluhan/";
     public static String URL_GET_GCM_USER   = "http://api.winnerawan.net/adukerang/get/gcm/user/?unique_id=";
     public static String URL_UPDATE_KELUHAN = "http://api.winnerawan.net/adukerang/update/keluhan/?status=";
+    public static String URL_TUTUP_ADUAN    = "http://api.winnerawan.net/adukerang/tutup/keluhan/";
+    public static String URL_SET_AVATAR     = "http://api.winnerawan.net/adukerang/update/user/upload.php";
     //get teknisi id by id_barang
     //gcm test
     public static String URL_GCM            = "http://api.winnerawan.net/adukerang/GCM.php";

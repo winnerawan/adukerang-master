@@ -1,5 +1,6 @@
 package co.ipb.adukerang.activity;
 
+import android.app.ProgressDialog;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,12 +13,17 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.NetworkImageView;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,6 +31,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
@@ -79,6 +86,8 @@ public class NotifActivity extends AppCompatActivity implements View.OnClickList
         spStatus.setAdapter(statusAdapter);
 
         List<String> list_verify = new ArrayList<String>();
+        list_verify.add("");
+        list_verify.add("");
         list_verify.add("TUTUP ADUAN");
 
         ArrayAdapter<String> verifyAdapter = new ArrayAdapter<String>(this,
@@ -103,6 +112,11 @@ public class NotifActivity extends AppCompatActivity implements View.OnClickList
 
            updateKeluhan();
             sendNotifications();
+        }
+        String tutup = ((Spinner)findViewById(R.id.spVerify)).getSelectedItem().toString();
+
+        if ((v == bLapor) && (tutup.equals("TUTUP ADUAN"))) {
+            tutupKeluhan();
         }
     }
     private void getKeluhanBaru() {
@@ -216,5 +230,53 @@ public class NotifActivity extends AppCompatActivity implements View.OnClickList
         if (HttpRequest.post(AppConfig.URL_SEND_NOTIF + gcm_pengadu).form(data).created())
             System.out.print("Notifications Send!");
         Log.i(TAG, data.toString());
+    }
+    private void tutupKeluhan() {
+        final ProgressDialog loading = ProgressDialog.show(this,"Tutup Aduan...","Please wait...",false,false);
+        final StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.URL_TUTUP_ADUAN,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String s) {
+                        loading.dismiss();
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+                        //Dismissing the progress dialog
+                        loading.dismiss();
+
+                        //Showing toast
+                        Toast.makeText(NotifActivity.this, volleyError.getMessage(), Toast.LENGTH_LONG).show();
+
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                //Converting Bitmap to String
+                int fix=1;
+                String verifySelect = ((Spinner)findViewById(R.id.spVerify)).getSelectedItem().toString();
+                String idk = ((TextView)findViewById(R.id.temporary_id_keluhan)).getText().toString();
+
+                //Creating parameters
+                Map<String, String> params = new Hashtable<String, String>();
+                //Adding parameters
+                params.put("is_fix", String.valueOf(fix));
+                params.put("keterangan", verifySelect);
+                params.put("id_keluhan", idk);
+
+                //returning parameters
+                return params;
+
+            }
+        };
+
+        //Creating a Request Queue
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+
+        //Adding request to the queue
+        requestQueue.add(stringRequest);
+        Toast.makeText(getApplicationContext(),"ADUAN DITUTUP", Toast.LENGTH_LONG).show();
     }
 }

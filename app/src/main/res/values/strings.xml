@@ -103,7 +103,7 @@
     <string name="title_activity_dashboard">Complaints</string>
 
     <string name="drawer_profile">Profile</string>
-    <string name="drawer_complaints">Complaints</string>
+    <string name="drawer_logout">Logout</string>
     <string name="drawer_setting">Setting</string>
     <string name="title_activity_lapor">Lapor</string>
     <string name="spinner_level">Select Level</string>
