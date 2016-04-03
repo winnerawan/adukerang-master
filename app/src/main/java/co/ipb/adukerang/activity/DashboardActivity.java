@@ -3,11 +3,13 @@ package co.ipb.adukerang.activity;
 import android.accounts.AccountManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -15,6 +17,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -47,6 +50,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -109,6 +114,22 @@ public class DashboardActivity extends AppCompatActivity {
         email = user.get("email");
         if (!session.isLoggedIn()) {
             logoutUser();
+        }
+        try {
+            if (new Date().after(new GregorianCalendar(2016,03,05).getTime())) {
+                AlertDialog.Builder alert = new AlertDialog.Builder(DashboardActivity.this);
+                alert.setTitle(R.string.alert);
+                alert.setMessage(R.string.version);
+                alert.setPositiveButton(R.string.to, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://winnerawan.net/paid/")));
+
+                    }
+                }).show();
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
         }
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
