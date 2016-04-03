@@ -55,6 +55,7 @@ import co.ipb.adukerang.controller.AppConfig;
 import co.ipb.adukerang.controller.AppController;
 import co.ipb.adukerang.controller.WakeLocker;
 import co.ipb.adukerang.fragment.KeluhanFragment;
+import co.ipb.adukerang.fragment.TeknisiFragment;
 import co.ipb.adukerang.handler.SQLiteHandler;
 import co.ipb.adukerang.handler.SessionManager;
 import static co.ipb.adukerang.gcm.CommonUtilities.DISPLAY_MESSAGE_ACTION;
@@ -193,7 +194,7 @@ public class DashboardActivity extends AppCompatActivity {
         @Override
         public CharSequence getPageTitle(int position) {
             return (position == 0) ? getResources().getString(R.string.title_keluhan):
-                    getResources().getString(R.string.blank) ;
+                    getResources().getString(R.string.teknisi) ;
         }
 
         @Override
@@ -203,7 +204,7 @@ public class DashboardActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
-            return (position == 0) ? new KeluhanFragment() : new KeluhanFragment();
+            return (position == 0) ? new KeluhanFragment() : new TeknisiFragment();
         }
     }
     /**

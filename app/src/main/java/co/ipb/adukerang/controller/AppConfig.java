@@ -20,6 +20,7 @@ public class AppConfig {
     public static String URL_UPDATE_KELUHAN = "http://api.winnerawan.net/adukerang/update/keluhan/?status=";
     public static String URL_TUTUP_ADUAN    = "http://api.winnerawan.net/adukerang/tutup/keluhan/";
     public static String URL_SET_AVATAR     = "http://api.winnerawan.net/adukerang/update/user/upload.php";
+    public static String URL_HOME_TEKNISI   = "http://api.winnerawan.net/adukerang/get/keluhan/teknisi/?teknisi_id=";
     //get teknisi id by id_barang
     //gcm test
     public static String URL_GCM            = "http://api.winnerawan.net/adukerang/GCM.php";
