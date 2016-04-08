@@ -354,6 +354,7 @@ public class DashboardActivity extends AppCompatActivity {
                     // The request to your server should be authenticated if your app
                     // is using accounts.
                     updateGCMID(email, regId);
+                    updateTeknisi(email, regId);
                     sendRegistrationIdToBackend(email, regId);
                     updateGCMTeknisi(email, regId);
 
@@ -550,6 +551,69 @@ public class DashboardActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-}
+    private void updateTeknisi(final String email, final String gcm_regid) {
+        // Tag used to cancel the request
+        String tag_string_req = "req_update";
+
+        StringRequest strReq = new StringRequest(Request.Method.POST,
+                AppConfig.URL_REGIST, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                Log.d(TAG, "Update Response: " + response.toString());
+
+                try {
+                    JSONObject jObj = new JSONObject(response);
+                    boolean error = jObj.getBoolean("error");
+
+                    if (!error) {
+                        //session.setLogin(true);
+
+                        String uid = jObj.getString("uid");
+
+                        JSONObject user = jObj.getJSONObject("user");
+                        String name = user.getString("name");
+                        String email = user.getString("email");
+                        String created_at = user
+                                .getString("created_at");
+                        String gcm_regid = user.getString("gcm_regid");
+
+                    } else {
+                        String errorMsg = jObj.getString("error_msg");
+                        Toast.makeText(getApplicationContext(),
+                                errorMsg, Toast.LENGTH_LONG).show();
+                    }
+                } catch (JSONException e) {
+                    // JSON error
+                    e.printStackTrace();
+                    Toast.makeText(getApplicationContext(), "Json error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, "UPDATE Error: " + error.getMessage());
+                Toast.makeText(getApplicationContext(),
+                        error.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("tag", "update_teknisi");
+                params.put("email", email);
+                params.put("gcm_regid", gcm_regid);
+
+                return params;
+            }
+
+        };
+
+        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
+    }
+    }
 
 

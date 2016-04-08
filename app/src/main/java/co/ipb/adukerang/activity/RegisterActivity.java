@@ -302,9 +302,9 @@ public class RegisterActivity extends ActionBarActivity {
 
             @Override
             protected void onPostExecute(String msg) {
-                Toast.makeText(getApplicationContext(),
+                /*Toast.makeText(getApplicationContext(),
                         "Registered with GCM Server." + msg, Toast.LENGTH_LONG)
-                        .show();
+                        .show();*/
             }
         }.execute(null, null, null);
         //txtregid.setText(regId);

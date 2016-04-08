@@ -112,6 +112,7 @@ public class NotifActivity extends AppCompatActivity implements View.OnClickList
 
            updateKeluhan();
             sendNotifications();
+            onBackPressed();
         }
         String tutup = ((Spinner)findViewById(R.id.spVerify)).getSelectedItem().toString();
 

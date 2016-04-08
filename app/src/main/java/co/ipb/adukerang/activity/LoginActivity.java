@@ -136,8 +136,8 @@ public class LoginActivity extends Activity {
                         Snackbar snackbar = Snackbar.make(snackbarCoordinatorLayout,
                                 "Anda Teknisi atau User ? ", Snackbar.LENGTH_LONG);
                         snackbar.show();
-                    } if (email.isEmpty() && password.isEmpty() && level.getText().toString().equals("")
-                            || level.getText().toString().equals("Teknisi") || level.getText().toString().equals("User")) {
+                    } if ((txtEmail.getText().toString().isEmpty() && txtPassword.getText().toString().isEmpty()) &&
+                        (level.getText().toString().equals("Teknisi") || level.getText().toString().equals("User"))) {
                         Toast.makeText(getApplicationContext(),"Isi Email & Password !",Toast.LENGTH_LONG).show();
                     }
             }

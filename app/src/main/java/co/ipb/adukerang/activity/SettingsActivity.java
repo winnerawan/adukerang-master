@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
@@ -40,6 +41,7 @@ import co.ipb.adukerang.controller.AppController;
 import co.ipb.adukerang.handler.SQLiteHandler;
 import co.ipb.adukerang.handler.SessionManager;
 import co.ipb.adukerang.helper.CircledNetworkImageView;
+import co.ipb.adukerang.helper.HttpRequest;
 
 /**
  * Created by winnerawan on 3/23/16.
@@ -58,6 +60,8 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     String name,email,uid;
     @InjectView(R.id.editUsername) EditText txtUsername;
     @InjectView(R.id.editEmail) EditText txtEmail;
+    @InjectView(R.id.editPassword) EditText txtPass0;
+    @InjectView(R.id.editConfirmPassword) EditText txtPass1;
     @InjectView(R.id.btnLapor) Button bLapor;
     @InjectView(R.id.btnCancel) Button bCancel;
 
@@ -78,7 +82,9 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         bCancel.setOnClickListener(this);
         avatar.setOnClickListener(this);
 
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 
+        StrictMode.setThreadPolicy(policy);
     }
     @Override
     public void onClick(View v) {
@@ -87,6 +93,9 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         }
         if (v == bCancel) {
             onBackPressed();
+        }
+        if (v == bLapor) {
+            updateUserDetails();
         }
 
     }
@@ -164,5 +173,15 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
 
         //Adding request to the queue
         requestQueue.add(stringRequest);
+    }
+    private void updateUserDetails() {
+        Map<String, String> data = new HashMap<String, String>();
+        String update_name = txtUsername.getText().toString();
+        String update_email = txtEmail.getText().toString();
+        data.put("name", update_name);
+        data.put("email", update_email);
+
+        if (HttpRequest.post(AppConfig.UPDATE_USER_DETAILS + uid +"&name="+update_name +"&email="+update_email).form(data).created())
+        Log.i(TAG, data.toString());
     }
 }

@@ -138,6 +138,7 @@ public class LaporActivity extends AppCompatActivity implements View.OnClickList
             getTeknisi();
             setKeluhan();
             sendNotifications();
+            onBackPressed();
         }
 
     }
