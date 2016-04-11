@@ -2,6 +2,7 @@ package co.ipb.adukerang.adapter;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,15 +64,29 @@ public class ListKeluhanAdapter extends BaseAdapter {
         TextView keluhan = (TextView) convertView.findViewById(R.id.keluhan);
         CircledNetworkImageView avatar = (CircledNetworkImageView) convertView.findViewById(R.id.avatar);
         TextView idk = (TextView)convertView.findViewById(R.id.idk);
+        View v_status = convertView.findViewById(R.id.view_status);
+        TextView tvstatuskel = (TextView)convertView.findViewById(R.id.statuskeluhan);
+        TextView tvs = (TextView)convertView.findViewById(R.id.tvstatus);
 
 
         Keluhan k = listKeluhan.get(position);
-
+        tvs.setText(k.getStatus());
+        tvstatuskel.setText(k.getStatus());
         image.setImageUrl(k.getFoto(), imageLoader);
         namaPengeluh.setText(k.getName());
         keluhan.setText(k.getKeluhan());
         avatar.setImageUrl(k.getProfile_picture(), imageLoader);
         idk.setText(k.getId_keluhan());
+        tvs.setText(k.getStatus());
+        String finalStatus = tvs.getText().toString();
+
+        if (finalStatus.equals("PENDING")) {
+            v_status.setBackgroundColor(Color.parseColor("#2196f3"));
+        } else if (finalStatus.equals("PROSES")) {
+            v_status.setBackgroundColor(Color.parseColor("#009688"));
+        } else if (finalStatus.equals("SELESAI")) {
+            v_status.setBackgroundColor(Color.parseColor("#ff5722"));
+        }
 
         return convertView;
     }

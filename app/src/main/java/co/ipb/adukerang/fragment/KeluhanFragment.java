@@ -1,6 +1,7 @@
 package co.ipb.adukerang.fragment;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v4.app.ListFragment;
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.NetworkImageView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -46,8 +48,9 @@ public class KeluhanFragment extends ListFragment {
 
     }
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View viewKeluhan = inflater.inflate(R.layout.keluhan_fragment, container, false);
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        final View viewKeluhan = inflater.inflate(R.layout.keluhan_fragment, container, false);
+
         ListView lv_keluhan = (ListView) viewKeluhan.findViewById(android.R.id.list);
         adapter = new ListKeluhanAdapter(this, listKeluhan);
         lv_keluhan.setAdapter(adapter);
@@ -63,7 +66,7 @@ public class KeluhanFragment extends ListFragment {
                 Log.d(TAG, response.toString());
                 hidePDialog();
                 // Parsing json
-                for (int i = 0; i < response.length(); i++) {
+                for (int i = 0; i < response.length(); i++)
                     try {
                         obj = response.getJSONObject(i);
                         Keluhan keluhan = new Keluhan();
@@ -71,11 +74,14 @@ public class KeluhanFragment extends ListFragment {
                         keluhan.setFoto(obj.getString("foto"));
                         keluhan.setKeluhan(obj.getString("keluhan"));
                         keluhan.setProfile_picture(obj.getString("profile_picture"));
+                        keluhan.setStatus(obj.getString("status"));
                         listKeluhan.add(keluhan);
+                        //View vv = viewKeluhan.findViewById(R.id.view_status);
+                        //vv.setBackgroundColor(Color.RED);
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                }
                 adapter.notifyDataSetChanged();
             }
         }, new Response.ErrorListener() {
@@ -95,13 +101,13 @@ public class KeluhanFragment extends ListFragment {
         //selected = ((SetanTextView)v.findViewById(R.id.title)).getText().toString();
         //String image = ((Drink)drinkMenus.get(position)).getThumbnailUrl();
         String selected_idk = ((TextView)v.findViewById(R.id.idk)).getText().toString();
-
-        Toast toast = Toast.makeText(getActivity(), selected_idk, Toast.LENGTH_SHORT);
-        toast.show();
+        String foto = ((Keluhan)listKeluhan.get(position)).getFoto();
+        //Toast toast = Toast.makeText(getActivity(), selected_idk, Toast.LENGTH_SHORT);
+        //toast.show();
         Intent details = new Intent(getActivity(), DetailsActivity.class);
         details.putExtra("id_keluhan", selected_idk);
-        //details.putExtra("image", image);
-        //startActivity(details);
+        details.putExtra("foto", foto);
+        startActivity(details);
     }
     @Override
     public void onDestroy() {

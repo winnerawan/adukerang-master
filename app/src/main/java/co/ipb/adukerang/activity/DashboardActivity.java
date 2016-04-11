@@ -20,6 +20,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.transition.Slide;
+import android.transition.TransitionInflater;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -90,7 +92,7 @@ public class DashboardActivity extends AppCompatActivity {
         //GCMRegistrar.register(this);
         GCMRegistrar.checkDevice(this);
         GCMRegistrar.checkManifest(this);
-
+        setupWindowAnimations();
         registerReceiver(mHandleMessageReceiver, new IntentFilter(DISPLAY_MESSAGE_ACTION));
         context = getApplicationContext();
 
@@ -189,6 +191,11 @@ public class DashboardActivity extends AppCompatActivity {
         Intent intent = new Intent(DashboardActivity.this, LoginActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    private void setupWindowAnimations() {
+        Slide slide = (Slide) TransitionInflater.from(this).inflateTransition(R.transition.activity_slide);
+        getWindow().setExitTransition(slide);
     }
     @Override
     public void onDestroy() {

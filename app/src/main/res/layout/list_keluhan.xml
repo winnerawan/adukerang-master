@@ -27,8 +27,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="95dp"
                 android:layout_marginTop="155dp"
-                android:background="#009688"
-                android:id="@+id/view" />
+                android:id="@+id/view_status" />
 
             <View
                 android:layout_width="10dp"
@@ -75,7 +74,7 @@
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="100dp"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text=""
                 android:textSize="10sp"
@@ -85,14 +84,34 @@
                 android:paddingRight="15dp"
                 android:textColor="#ffffff"
                 android:id="@+id/keluhan"
-                android:layout_alignParentBottom="true"
                 android:layout_alignLeft="@+id/id_keluhan"
                 android:layout_alignStart="@+id/id_keluhan"
-                android:layout_below="@+id/id_keluhan" />
+                android:layout_below="@+id/id_keluhan"
+                android:layout_alignBottom="@+id/avatar" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="TES"
+                android:textSize="10sp"
+                android:lines="3"
+                android:ellipsize="end"
+                android:paddingBottom="4dp"
+                android:paddingRight="15dp"
+                android:textColor="#ffffff"
+                android:id="@+id/statuskeluhan"
+                android:layout_alignParentBottom="true"
+                android:layout_alignLeft="@+id/id_keluhan"
+                android:layout_alignStart="@+id/id_keluhan" />
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/idk"
+                android:visibility="gone"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/tvstatus"
                 android:visibility="gone"/>
         </RelativeLayout>
 
