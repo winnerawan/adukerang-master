@@ -92,6 +92,9 @@ public class LaporActivity extends AppCompatActivity implements View.OnClickList
 
         ButterKnife.inject(this);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Laporan");
         tv_id_ruang.setAdapter(new SuggestionAdapter(this, tv_id_ruang.getText().toString()));
         bChoose.setOnClickListener(this);
         bLapor.setOnClickListener(this);

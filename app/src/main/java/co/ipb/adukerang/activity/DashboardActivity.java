@@ -20,6 +20,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.transition.Fade;
 import android.transition.Slide;
 import android.transition.TransitionInflater;
 import android.util.Log;
@@ -155,11 +156,11 @@ public class DashboardActivity extends AppCompatActivity {
                 .build();
 
         PrimaryDrawerItem profile = new PrimaryDrawerItem().withName(R.string.drawer_profile)
-                .withIcon(R.drawable.ic_menu_profile).withSelectable(false);
+                .withIcon(R.drawable.profil).withSelectable(false);
         PrimaryDrawerItem logout = new PrimaryDrawerItem().withName(R.string.drawer_logout)
-                .withIcon(R.drawable.ic_menu_cekstatus).withSelectable(false);
+                .withIcon(R.drawable.logout).withSelectable(false);
         PrimaryDrawerItem setting = new PrimaryDrawerItem().withName(R.string.drawer_setting)
-                .withIcon(R.drawable.ic_menu_setting).withSelectable(false);
+                .withIcon(R.drawable.setting).withSelectable(false);
 
         mDrawer = new DrawerBuilder().withActivity(this).withAccountHeader(header).withToolbar(toolbar)
                 .addDrawerItems(new DividerDrawerItem(),
@@ -194,8 +195,13 @@ public class DashboardActivity extends AppCompatActivity {
     }
 
     private void setupWindowAnimations() {
-        Slide slide = (Slide) TransitionInflater.from(this).inflateTransition(R.transition.activity_slide);
-        getWindow().setExitTransition(slide);
+        Fade fade = new Fade();
+        fade.setDuration(1000);
+        getWindow().setEnterTransition(fade);
+
+        Slide slide = new Slide();
+        slide.setDuration(1000);
+        getWindow().setReturnTransition(slide);
     }
     @Override
     public void onDestroy() {
@@ -620,6 +626,10 @@ public class DashboardActivity extends AppCompatActivity {
         };
 
         AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
+    }
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
     }
     }
 

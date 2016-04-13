@@ -102,11 +102,16 @@ public class KeluhanFragment extends ListFragment {
         //String image = ((Drink)drinkMenus.get(position)).getThumbnailUrl();
         String selected_idk = ((TextView)v.findViewById(R.id.idk)).getText().toString();
         String foto = ((Keluhan)listKeluhan.get(position)).getFoto();
+        String pp = ((Keluhan)listKeluhan.get(position)).getProfile_picture();
+
+        String ket_kel = ((Keluhan)listKeluhan.get(position)).getKeluhan();
         //Toast toast = Toast.makeText(getActivity(), selected_idk, Toast.LENGTH_SHORT);
         //toast.show();
         Intent details = new Intent(getActivity(), DetailsActivity.class);
         details.putExtra("id_keluhan", selected_idk);
         details.putExtra("foto", foto);
+        details.putExtra("profile_picture",pp);
+        details.putExtra("keluhan", ket_kel);
         startActivity(details);
     }
     @Override

@@ -52,6 +52,7 @@ public class ListKeluhanAdapter extends BaseAdapter {
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
+        String pp_default = "http://flaticons.net/icons/Application/User-Profile.png";
         if (inflater == null)
             inflater = (LayoutInflater) fragment.getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (convertView == null)
@@ -69,6 +70,7 @@ public class ListKeluhanAdapter extends BaseAdapter {
         TextView tvs = (TextView)convertView.findViewById(R.id.tvstatus);
 
 
+
         Keluhan k = listKeluhan.get(position);
         tvs.setText(k.getStatus());
         tvstatuskel.setText(k.getStatus());
@@ -76,6 +78,9 @@ public class ListKeluhanAdapter extends BaseAdapter {
         namaPengeluh.setText(k.getName());
         keluhan.setText(k.getKeluhan());
         avatar.setImageUrl(k.getProfile_picture(), imageLoader);
+        if (k.getProfile_picture().equals("")) {
+            avatar.setImageUrl(pp_default, imageLoader);
+        }
         idk.setText(k.getId_keluhan());
         tvs.setText(k.getStatus());
         String finalStatus = tvs.getText().toString();

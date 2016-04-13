@@ -5,32 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".activity.ProfileActivity"
-    tools:showIn="@layout/activity_profile">
+    tools:context=".activity.DetailsActivity"
+    tools:showIn="@layout/activity_details">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <com.astuetz.PagerSlidingTabStrip
-            android:id="@+id/tabs"
-            app:pstsShouldExpand="true"
-            app:pstsTextAllCaps="true"
-            app:pstsIndicatorHeight="1dip"
-            app:pstsIndicatorColor="@color/primary_dark"
-            android:layout_width="match_parent"
-            android:layout_height="35dp">
-        </com.astuetz.PagerSlidingTabStrip>
 
-        <android.support.v4.view.ViewPager
-            android:id="@+id/pager"
-            android:layout_width="match_parent"
-            android:layout_height="480dp"
-            android:paddingRight="20dp"
-            android:paddingTop="20dp"
-            android:paddingLeft="20dp"
-            android:background="@android:color/white" />
 
     </LinearLayout>
 

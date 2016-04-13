@@ -98,7 +98,8 @@
         <activity
             android:name=".activity.SettingsActivity"
             android:label="@string/action_settings" />
-        <activity android:name=".activity.DetailsActivity"></activity>
+        <activity android:name=".activity.DetailsActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

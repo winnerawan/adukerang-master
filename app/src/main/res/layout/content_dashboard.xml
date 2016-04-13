@@ -22,10 +22,6 @@
             android:id="@+id/pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingRight="15dp"
-            android:paddingTop="20dp"
-            android:paddingBottom="15dp"
-            android:paddingLeft="15dp"
             android:background="@android:color/white"
             android:layout_weight="0.43" />
 
