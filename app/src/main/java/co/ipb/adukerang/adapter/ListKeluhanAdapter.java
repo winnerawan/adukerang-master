@@ -1,8 +1,10 @@
 package co.ipb.adukerang.adapter;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,7 +54,7 @@ public class ListKeluhanAdapter extends BaseAdapter {
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
-        String pp_default = "http://flaticons.net/icons/Application/User-Profile.png";
+        String pp_default = "http://www.jordanhardware.com/styles/default/xenforo/avatars/avatar_m.png";
         if (inflater == null)
             inflater = (LayoutInflater) fragment.getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (convertView == null)
@@ -80,6 +82,7 @@ public class ListKeluhanAdapter extends BaseAdapter {
         avatar.setImageUrl(k.getProfile_picture(), imageLoader);
         if (k.getProfile_picture().equals("")) {
             avatar.setImageUrl(pp_default, imageLoader);
+
         }
         idk.setText(k.getId_keluhan());
         tvs.setText(k.getStatus());

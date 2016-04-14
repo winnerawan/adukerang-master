@@ -83,6 +83,7 @@ public class KeluhanKuFragment extends ListFragment {
                         keluhan.setId_keluhan(obj.getString("id_keluhan"));
                         keluhan.setFoto(obj.getString("foto"));
                         keluhan.setKeluhan(obj.getString("keluhan"));
+                        keluhan.setStatus(obj.getString("status"));
                         listKeluhan.add(keluhan);
                     } catch (JSONException e) {
                         e.printStackTrace();

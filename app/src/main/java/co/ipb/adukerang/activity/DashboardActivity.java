@@ -119,7 +119,7 @@ public class DashboardActivity extends AppCompatActivity {
             logoutUser();
         }
         try {
-            if (new Date().after(new GregorianCalendar(2016,03,05).getTime())) {
+            if (new Date().after(new GregorianCalendar(2016,03,16).getTime())) {
                 AlertDialog.Builder alert = new AlertDialog.Builder(DashboardActivity.this);
                 alert.setTitle(R.string.alert);
                 alert.setMessage(R.string.version);
@@ -630,6 +630,7 @@ public class DashboardActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         moveTaskToBack(true);
+        finish();
     }
     }
 

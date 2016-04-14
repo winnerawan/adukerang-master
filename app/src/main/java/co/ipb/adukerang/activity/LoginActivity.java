@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
@@ -19,6 +20,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -58,7 +60,7 @@ public class LoginActivity extends Activity {
     @InjectView(R.id.email) EditText txtEmail;
     @InjectView(R.id.password) EditText txtPassword;
     @InjectView(R.id.login) Button bLogin;
-    @InjectView(R.id.spinner_level) MaterialBetterSpinner level;
+    @InjectView(R.id.spinner_level) fr.ganfra.materialspinner.MaterialSpinner level;
     @InjectView(R.id.snackbarCoordinatorLayout) CoordinatorLayout snackbarCoordinatorLayout;
     String tes_regid="TESREGID";
     GoogleCloudMessaging gcm;
@@ -81,6 +83,7 @@ public class LoginActivity extends Activity {
         levelList.add("Teknisi");
         levelList.add("User");
 
+
         email=txtEmail.getText().toString();
         context = getApplicationContext();
 
@@ -90,6 +93,7 @@ public class LoginActivity extends Activity {
         ArrayAdapter<String> adapterSpinner = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_dropdown_item, levelList);
         level.setAdapter(adapterSpinner);
+
 
         level.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -121,23 +125,23 @@ public class LoginActivity extends Activity {
         bLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.e(TAG, "SPINNER = " +level.getText().toString());
+                Log.e(TAG, "SPINNER = " +level.getSelectedItem().toString());
                 email = txtEmail.getText().toString().trim();
                 String password = txtPassword.getText().toString().trim();
 
-                    if (level.getText().toString().equals("Teknisi") && (!email.isEmpty() && (!password.isEmpty()))) {
+                    if (level.getSelectedItem().toString().equals("Teknisi") && (!email.isEmpty() && (!password.isEmpty()))) {
                         loginTeknisi(email, password);
                         Log.e(TAG, txtEmail.getText().toString());
-                    } else if (level.getText().toString().equals("User") && (!email.isEmpty() && (!password.isEmpty()))) {
+                    } else if (level.getSelectedItem().toString().equals("User") && (!email.isEmpty() && (!password.isEmpty()))) {
                         checkLogin(email, password);
                         //updateGCMID(email,regId);
                         //Log.i(TAG, "REGID = "+regId);
-                    } else if (level.getText().toString().equals("")) {
+                    } else if (level.getSelectedItem().toString().equals("")) {
                         Snackbar snackbar = Snackbar.make(snackbarCoordinatorLayout,
                                 "Anda Teknisi atau User ? ", Snackbar.LENGTH_LONG);
                         snackbar.show();
                     } if ((txtEmail.getText().toString().isEmpty() && txtPassword.getText().toString().isEmpty()) &&
-                        (level.getText().toString().equals("Teknisi") || level.getText().toString().equals("User"))) {
+                        (level.getSelectedItem().toString().equals("Teknisi") || level.getSelectedItem().toString().equals("User"))) {
                         Toast.makeText(getApplicationContext(),"Isi Email & Password !",Toast.LENGTH_LONG).show();
                     }
             }

@@ -23,6 +23,10 @@ public class AppConfig {
     public static String URL_SET_AVATAR     = "http://api.winnerawan.net/adukerang/update/user/upload.php";
     public static String URL_HOME_TEKNISI   = "http://api.winnerawan.net/adukerang/get/keluhan/teknisi/?teknisi_id=";
     public static String UPDATE_USER_DETAILS= "http://api.winnerawan.net/adukerang/update/user/details/?unique_id=";
+    public static String URL_GET_K_DETAILS  = "http://api.winnerawan.net/adukerang/get/details/?id_keluhan=";
+    public static String URL_LIKE           = "http://api.winnerawan.net/adukerang/set/liked/";
+    public static String URL_GET_LIKER      = "http://api.winnerawan.net/adukerang/get/liker/?id_keluhan=";
+    public static String URL_CHECK_LIKE     = "http://api.winnerawan.net/adukerang/get/liked/?id_keluhan=";
     //get teknisi id by id_barang
     //gcm test
     public static String URL_GCM            = "http://api.winnerawan.net/adukerang/GCM.php";

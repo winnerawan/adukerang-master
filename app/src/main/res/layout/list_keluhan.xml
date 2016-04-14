@@ -43,14 +43,19 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true" />
 
+
             <co.ipb.adukerang.helper.CircledNetworkImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:id="@+id/avatar"
                 app:border="true"
+                android:src="@drawable/avatar_m"
+                android:background="@drawable/bdc"
                 android:scaleType="centerCrop"
                 app:border_color="#FF000000"
                 app:border_width="2dp"
+                android:padding="2dp"
                 android:layout_marginLeft="22dp"
                 android:layout_marginStart="22dp"
                 android:layout_marginBottom="42dp"

@@ -70,6 +70,7 @@ public class KeluhanFragment extends ListFragment {
                     try {
                         obj = response.getJSONObject(i);
                         Keluhan keluhan = new Keluhan();
+                        keluhan.setId_keluhan(obj.getString("id_keluhan"));
                         keluhan.setName(obj.getString("name"));
                         keluhan.setFoto(obj.getString("foto"));
                         keluhan.setKeluhan(obj.getString("keluhan"));
@@ -102,12 +103,15 @@ public class KeluhanFragment extends ListFragment {
         //String image = ((Drink)drinkMenus.get(position)).getThumbnailUrl();
         String selected_idk = ((TextView)v.findViewById(R.id.idk)).getText().toString();
         String foto = ((Keluhan)listKeluhan.get(position)).getFoto();
+        String plpr = ((Keluhan)listKeluhan.get(position)).getName();
         String pp = ((Keluhan)listKeluhan.get(position)).getProfile_picture();
 
         String ket_kel = ((Keluhan)listKeluhan.get(position)).getKeluhan();
         //Toast toast = Toast.makeText(getActivity(), selected_idk, Toast.LENGTH_SHORT);
         //toast.show();
         Intent details = new Intent(getActivity(), DetailsActivity.class);
+        details.putExtra("id_keluhan", selected_idk);
+        details.putExtra("pelapor",plpr);
         details.putExtra("id_keluhan", selected_idk);
         details.putExtra("foto", foto);
         details.putExtra("profile_picture",pp);
