@@ -2,6 +2,7 @@ package co.ipb.adukerang.activity;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -9,6 +10,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.transition.Fade;
 import android.transition.Slide;
 import android.transition.TransitionInflater;
@@ -56,10 +58,10 @@ public class DetailsActivity extends AppCompatActivity {
 
     private static final String TAG = DetailsActivity.class.getSimpleName();
 
+    @InjectView(R.id.toolbar)
+    Toolbar toolbar;
     @InjectView(R.id.avatar)
     CircledNetworkImageView avatar;
-    @InjectView(R.id.avatar2)
-    CircledNetworkImageView avatar2;
     @InjectView(R.id.nama_pelapor)
     TextView txtPelapor;
     @InjectView(R.id.nama_ruang)
@@ -76,9 +78,10 @@ public class DetailsActivity extends AppCompatActivity {
     com.like.LikeButton bLike;
     @InjectView(R.id.ib_comment)
     ImageButton bComment;
+    @InjectView(R.id.idktemp) TextView temp;
     ImageLoader imageLoader = AppController.getInstance().getImageLoader();
     private int i = 0;
-    String id_keluhan, id_ruang, uid;
+    public String id_keluhan, id_ruang, uid;
     private SQLiteHandler db;
     private SessionManager session;
     private SharedPreferences pref;
@@ -91,20 +94,28 @@ public class DetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
         ButterKnife.inject(this);
-
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Details");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
         Bundle select = getIntent().getExtras();
         id_keluhan = select.getString("id_keluhan");
+        //temp.setText(id_keluhan);
         String pelapor = select.getString("pelapor");
+        String pp_null = "http://www.jordanhardware.com/styles/default/xenforo/avatars/avatar_m.png";
         String pp = select.getString("profile_picture");
         String foto = select.getString("foto");
         String keluhan = select.getString("keluhan");
         getDetails();
 
-        txtPelapor.setText(pelapor);
+        txtPelapor.setText(id_keluhan);
         avatar.setImageUrl(pp, imageLoader);
         ivKeluhan.setImageUrl(foto, imageLoader);
         txtKeluhan.setText(keluhan);
-        avatar2.setImageUrl(pp, imageLoader);
+
+            if (pp.isEmpty()) {
+                avatar.setImageUrl(pp_null, imageLoader);
+            }
 
 
         pref = PreferenceManager.getDefaultSharedPreferences(this);
@@ -142,12 +153,7 @@ public class DetailsActivity extends AppCompatActivity {
             }
         });
 
-        bComment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                bComment.setImageDrawable(getDrawable(R.drawable.comment));
-            }
-        });
+
 
 
     }
@@ -234,7 +240,7 @@ public class DetailsActivity extends AppCompatActivity {
 
                 //Adding parameters
                 params.put("id_keluhan", id_keluhan);
-                params.put("unique_id", uid);
+                //params.put("unique_id", uid);
                 params.put("liked", String.valueOf(1));
                 //returning parameters
                 return params;
@@ -334,5 +340,15 @@ public class DetailsActivity extends AppCompatActivity {
 
         // Adding request to request queue
         AppController.getInstance().addToRequestQueue(req);
+
+        bComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(DetailsActivity.this, CommentActivity.class);
+                i.putExtra("id_keluhan", id_keluhan);
+                startActivity(i);
+            }
+        });
     }
+
 }

@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -51,18 +52,20 @@ public class NotifActivity extends AppCompatActivity implements View.OnClickList
     private SQLiteHandler db;
     private SessionManager session;
     ImageLoader imageLoader = AppController.getInstance().getImageLoader();
-    String uid,email,name,teknisi_id,id_ruangan,id_barang,keluhan,foto,id_pengadu,gcm_pengadu,id_keluhan;
+    String uid,email,name,teknisi_id,id_ruangan,id_barang,keluhan,foto,id_pengadu,gcm_pengadu,id_keluhan,status;
     @InjectView(R.id.n_foto_keluhan) NetworkImageView iv_foto_keluhan;
     @InjectView(R.id.txtRuang) TextView tvRuang;
     @InjectView(R.id.txtBarang) TextView tvBarang;
     @InjectView(R.id.txtKeluhan) TextView tvKeluhan;
     @InjectView(R.id.spStatus) Spinner spStatus;
-    @InjectView(R.id.spVerify) Spinner spVerify;
     @InjectView(R.id.btnLapor) Button bLapor;
+    @InjectView(R.id.tvverify) TextView tvverify;
     @InjectView(R.id.btnCancel) Button bCancel;
+    @InjectView(R.id.cVerify) CheckBox cVerify;
     @InjectView(R.id.temporary_gcm_pengadu) TextView temp_gcm;
     @InjectView(R.id.temporary_unique_id) TextView temp_uid;
     @InjectView(R.id.temporary_id_keluhan) TextView temp_id_keluhan;
+    int p;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,15 +88,7 @@ public class NotifActivity extends AppCompatActivity implements View.OnClickList
         statusAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spStatus.setAdapter(statusAdapter);
 
-        List<String> list_verify = new ArrayList<String>();
-        list_verify.add("");
-        list_verify.add("");
-        list_verify.add("TUTUP ADUAN");
 
-        ArrayAdapter<String> verifyAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, list_verify);
-        statusAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spVerify.setAdapter(verifyAdapter);
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 
         StrictMode.setThreadPolicy(policy);
@@ -114,9 +109,8 @@ public class NotifActivity extends AppCompatActivity implements View.OnClickList
             sendNotifications();
             onBackPressed();
         }
-        String tutup = ((Spinner)findViewById(R.id.spVerify)).getSelectedItem().toString();
 
-        if ((v == bLapor) && (tutup.equals("TUTUP ADUAN"))) {
+        if ((v == bLapor) && (cVerify.isChecked())) {
             tutupKeluhan();
         }
     }
@@ -142,10 +136,31 @@ public class NotifActivity extends AppCompatActivity implements View.OnClickList
                                  keluhan = teknisi.getString("keluhan");
                                  foto = teknisi.getString("foto");
                                  uid = teknisi.getString("unique_id");
+                                 status = teknisi.getString("status");
 
                                 tvRuang.setText(id_ruangan);
                                 tvBarang.setText(id_barang);
                                 tvKeluhan.setText(keluhan);
+
+                                if (status.equals("PROSES")) {
+                                    p=0;
+                                } else if (status.equals("PENDING")) {
+                                    p=1;
+                                } else if (status.equals("SELESAI")) {
+                                    p=2;
+                                }
+                                if (p==0) {
+                                    tvverify.setVisibility(View.INVISIBLE);
+                                    cVerify.setVisibility(View.INVISIBLE);
+                                } else if (p==1) {
+                                    tvverify.setVisibility(View.INVISIBLE);
+                                    cVerify.setVisibility(View.INVISIBLE);
+                                } else if (p==2) {
+                                    tvverify.setVisibility(View.VISIBLE);
+                                    cVerify.setVisibility(View.VISIBLE);
+                                }
+
+                                spStatus.setSelection(p);
                                 iv_foto_keluhan.setImageUrl(foto, imageLoader);
                                 temp_uid.setText(uid);
                                 temp_id_keluhan.setText(id_keluhan);
@@ -257,14 +272,14 @@ public class NotifActivity extends AppCompatActivity implements View.OnClickList
             protected Map<String, String> getParams() throws AuthFailureError {
                 //Converting Bitmap to String
                 int fix=1;
-                String verifySelect = ((Spinner)findViewById(R.id.spVerify)).getSelectedItem().toString();
+                //String verifySelect = ((Spinner)findViewById(R.id.spVerify)).getSelectedItem().toString();
                 String idk = ((TextView)findViewById(R.id.temporary_id_keluhan)).getText().toString();
-
+                String tutup = "ADUAN DITUTUP";
                 //Creating parameters
                 Map<String, String> params = new Hashtable<String, String>();
                 //Adding parameters
                 params.put("is_fix", String.valueOf(fix));
-                params.put("keterangan", verifySelect);
+                params.put("keterangan", tutup);
                 params.put("id_keluhan", idk);
 
                 //returning parameters

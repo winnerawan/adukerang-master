@@ -80,6 +80,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="Verifikasi "
+            android:id="@+id/tvverify"
             android:layout_marginLeft="10dip"
             android:layout_marginRight="10dip"
             android:layout_marginTop="20dip"
@@ -102,14 +103,14 @@
             android:visibility="gone"
             android:id="@+id/temporary_id_keluhan" />
 
-        <Spinner
-            android:id="@+id/spVerify"
-            android:layout_marginLeft="20dip"
-            android:layout_marginRight="10dip"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"/>
+        <CheckBox
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/cVerify"/>
         <LinearLayout
             android:layout_width="wrap_content"
+            android:layout_marginTop="5dp"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_gravity="center">

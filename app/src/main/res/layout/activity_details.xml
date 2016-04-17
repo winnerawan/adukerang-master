@@ -20,19 +20,21 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:orientation="horizontal"
-        android:layout_height="150dp"
+        android:layout_height="130dp"
         android:elevation="15dp"
         android:layout_marginTop="25dp"
         android:background="@color/colorPrimaryDark"
         android:id="@+id/linearLayout">
 
         <co.ipb.adukerang.helper.CircledNetworkImageView
-            android:layout_width="100dp"
+            android:layout_width="80dp"
             android:id="@+id/avatar"
+            android:padding="2dp"
+            android:background="@drawable/bdc"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="30dp"
             android:layout_marginRight="50dp"
-            android:layout_height="100dp" />
+            android:layout_height="80dp" />
 
         <LinearLayout
             android:textColor="@color/white"
@@ -45,7 +47,7 @@
                 android:textColor="@color/white"
                 android:id="@+id/nama_pelapor"
                 android:layout_width="200dp"
-                android:layout_marginTop="38dp"
+                android:layout_marginTop="35dp"
                 android:textSize="@dimen/font_ml"
                 android:layout_height="wrap_content" />
 
@@ -53,7 +55,7 @@
                 android:textColor="@color/white"
                 android:id="@+id/nama_ruang"
                 android:layout_width="200dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:textSize="@dimen/font_ml"
                 android:layout_height="wrap_content"/>
 
@@ -61,7 +63,7 @@
                 android:id="@+id/created_at"
                 android:layout_width="200dp"
                 android:textColor="@color/white"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:textSize="@dimen/font_ml"
                 android:layout_height="wrap_content"/>
 
@@ -77,11 +79,12 @@
     android:id="@+id/linearLayout2"
     android:background="@color/colorPrimaryDark"
     android:layout_below="@id/linearLayout"
-    android:layout_height="275dp">
+    android:layout_height="375dp"
+    android:layout_above="@+id/linearLayout3">
 
     <com.android.volley.toolbox.NetworkImageView
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="275dp"
         android:elevation="15dp"
         android:scaleType="centerCrop"
         android:id="@+id/foto_keluhan"/>
@@ -91,7 +94,7 @@
         android:layout_marginTop="20dp"
         android:textColor="@color/white"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="100dp"
         android:id="@+id/keluhan"/>
 
     <TextView
@@ -111,9 +114,10 @@
         android:paddingTop="15dp"
         android:elevation="30dp"
         android:background="@color/colorPrimaryDark"
-        android:layout_below="@id/linearLayout2"
         android:layout_height="50dp"
-        android:id="@+id/linearLayout3">
+        android:id="@+id/linearLayout3"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true">
 
         <com.like.LikeButton
             app:icon_type="star"
@@ -142,7 +146,7 @@
             android:background="@color/colorPrimaryDark"
             android:layout_gravity="center_vertical"
             android:layout_marginRight="15dp"
-            android:layout_marginBottom="5dp"
+            android:layout_marginBottom="3dp"
             android:layout_width="40dp"
             android:layout_height="40dp" />
 
@@ -150,25 +154,19 @@
             android:text="Comment"
             android:textColor="@color/white"
             android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:textSize="@dimen/font_ml"
             android:layout_gravity="center_vertical"
             android:layout_width="120dp"
             android:layout_height="40dp" />
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/linearLayout3">
-
-
-        <co.ipb.adukerang.helper.CircledNetworkImageView
-            android:layout_width="50dp"
-            android:id="@+id/avatar2"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_height="50dp" />
-    </LinearLayout>
+    <TextView
+        android:id="@+id/idktemp"
+        android:visibility="gone"
+        android:textColor="@color/white"
+        android:textSize="@dimen/font_ml"
+        android:layout_gravity="center_vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 </RelativeLayout>

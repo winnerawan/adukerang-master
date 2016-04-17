@@ -27,6 +27,8 @@ public class AppConfig {
     public static String URL_LIKE           = "http://api.winnerawan.net/adukerang/set/liked/";
     public static String URL_GET_LIKER      = "http://api.winnerawan.net/adukerang/get/liker/?id_keluhan=";
     public static String URL_CHECK_LIKE     = "http://api.winnerawan.net/adukerang/get/liked/?id_keluhan=";
+    public static String URL_GET_COMMENT    = "http://api.winnerawan.net/adukerang/get/comment/?id_keluhan=";
+    public static String URL_SET_COMMENT    = "http://api.winnerawan.net/adukerang/set/comment/";
     //get teknisi id by id_barang
     //gcm test
     public static String URL_GCM            = "http://api.winnerawan.net/adukerang/GCM.php";

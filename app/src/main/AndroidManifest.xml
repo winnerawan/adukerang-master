@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="co.ipb.adukerang">
-
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" />
     <uses-permission android:name="android.permission.INTERNET" />
     <!-- GCM requires a Google account. -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -98,8 +100,15 @@
         <activity
             android:name=".activity.SettingsActivity"
             android:label="@string/action_settings" />
-        <activity android:name=".activity.DetailsActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".activity.DetailsActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.CommentActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="co.ipb.adukerang.activity.DetailsActivity" />
+        </activity>
     </application>
 
 </manifest>

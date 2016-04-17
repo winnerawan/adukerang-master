@@ -1,6 +1,7 @@
 package co.ipb.adukerang.activity;
 
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -68,8 +69,10 @@ public class LaporActivity extends AppCompatActivity implements View.OnClickList
     private String KEY_FOTO = "foto";
     private String KEY_TEKNISI_ID = "teknisi_id";
     private String KEY_UNIQUE_ID = "unique_id";
+    private String KEY_STATUS = "status";
     private Bitmap bitmap;
     private int PICK_IMAGE_REQUEST = 1;
+    final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1;
     private SQLiteHandler db;
     private SessionManager session;
     private String uid,email,teknisi_id,teknisi_gcm_regid;
@@ -78,11 +81,12 @@ public class LaporActivity extends AppCompatActivity implements View.OnClickList
     @InjectView(R.id.spItems) Spinner spBarang;
     @InjectView(R.id.toolbar) Toolbar toolbar;
     @InjectView(R.id.folder) ImageButton bChoose;
+    @InjectView(R.id.kamera) ImageButton bCamera;
     @InjectView(R.id.editKeluhan) EditText txtKeluhan;
     @InjectView(R.id.btnLapor) Button bLapor;
     @InjectView(R.id.btnCancel) Button bCancel;
     @InjectView(R.id.foto) ImageView foto;
-
+    Uri imageUri                      = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,6 +101,7 @@ public class LaporActivity extends AppCompatActivity implements View.OnClickList
         getSupportActionBar().setTitle("Laporan");
         tv_id_ruang.setAdapter(new SuggestionAdapter(this, tv_id_ruang.getText().toString()));
         bChoose.setOnClickListener(this);
+        bCamera.setOnClickListener(this);
         bLapor.setOnClickListener(this);
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 
@@ -130,6 +135,12 @@ public class LaporActivity extends AppCompatActivity implements View.OnClickList
                 e.printStackTrace();
             }
         }
+        if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE && requestCode == RESULT_OK ) {
+
+            Bitmap photo = (Bitmap)getIntent().getExtras().get("data");
+            foto.setImageBitmap(photo);
+
+        }
     }
     @Override
     public void onClick(View v) {
@@ -142,6 +153,10 @@ public class LaporActivity extends AppCompatActivity implements View.OnClickList
             setKeluhan();
             sendNotifications();
             onBackPressed();
+        }
+        if (v == bCamera) {
+            getTeknisi();
+            capture();
         }
 
     }
@@ -287,6 +302,7 @@ public class LaporActivity extends AppCompatActivity implements View.OnClickList
                 params.put(KEY_TEKNISI_ID, teknisi_id);
                 params.put(KEY_KELUHAN, keluhan);
                 params.put(KEY_UNIQUE_ID, uid);
+                params.put(KEY_STATUS, "PROSES");
 
                 //returning parameters
                 return params;
@@ -300,7 +316,29 @@ public class LaporActivity extends AppCompatActivity implements View.OnClickList
         //Adding request to the queue
         requestQueue.add(stringRequest);
     }
+    private void capture() {
+        String fileName = "Camera_Example.jpg";
 
+        // Create parameters for Intent with filename
+
+        ContentValues values = new ContentValues();
+
+        values.put(MediaStore.Images.Media.TITLE, fileName);
+
+        values.put(MediaStore.Images.Media.DESCRIPTION,"Image capture by camera");
+
+        // imageUri is the current activity attribute, define and save it for later usage
+
+        imageUri = getContentResolver().insert(
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+        Intent intent = new Intent( MediaStore.ACTION_IMAGE_CAPTURE );
+
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+
+        intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
+
+        startActivityForResult( intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+    }
     //
     //
     private void sendNotifications() {
