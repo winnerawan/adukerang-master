@@ -108,7 +108,7 @@ public class DetailsActivity extends AppCompatActivity {
         String keluhan = select.getString("keluhan");
         getDetails();
 
-        txtPelapor.setText(id_keluhan);
+        txtPelapor.setText(pelapor);
         avatar.setImageUrl(pp, imageLoader);
         ivKeluhan.setImageUrl(foto, imageLoader);
         txtKeluhan.setText(keluhan);
