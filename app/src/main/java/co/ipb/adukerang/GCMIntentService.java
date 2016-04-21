@@ -10,6 +10,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
@@ -47,7 +48,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 
     /**
      * Method called on device un registred
-     * */
+     */
     @Override
     protected void onUnregistered(Context context, String registrationId) {
         Log.i(TAG, "Device unregistered");
@@ -57,12 +58,12 @@ public class GCMIntentService extends GCMBaseIntentService {
 
     /**
      * Method called on Receiving a new message
-     * */
+     */
     @Override
     protected void onMessage(Context context, Intent intent) {
         Log.i(TAG, "Received message");
-        String message = "New Notifications";
-
+        String message = intent.getExtras().getString("message");
+        String tes = intent.getExtras().getString("fields");
         CommonUtilities.displayMessage(context, message);
         // notifies user
         generateNotification(context, message);
@@ -70,7 +71,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 
     /**
      * Method called on receiving a deleted message
-     * */
+     */
     @Override
     protected void onDeletedMessages(Context context, int total) {
         Log.i(TAG, "Received deleted messages notification");
@@ -82,7 +83,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 
     /**
      * Method called on Error
-     * */
+     */
     @Override
     public void onError(Context context, String errorId) {
         Log.i(TAG, "Received error: " + errorId);
@@ -111,14 +112,15 @@ public class GCMIntentService extends GCMBaseIntentService {
         String title = context.getString(R.string.app_name);
 
         Intent notificationIntent = new Intent(context, NotifActivity.class);
+        notificationIntent.putExtra("message", message);
         // set intent so it does not start a new activity
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
                 Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent intent =
-                PendingIntent.getActivity(context, 0, notificationIntent, 0);
+                PendingIntent.getActivity(context, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         final Uri notif = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://"
-                +context.getPackageName()+"/raw/notification");
+                + context.getPackageName() + "/raw/notification");
 
         NotificationCompat.Builder notificationCompat = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.iconadukerang)
@@ -127,6 +129,7 @@ public class GCMIntentService extends GCMBaseIntentService {
                 .setSound(notif)
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(message));
 
+        notificationCompat.setAutoCancel(true);
         notificationCompat.setContentIntent(intent);
 
         notificationCompat.setDefaults(Notification.DEFAULT_SOUND);
@@ -148,6 +151,14 @@ public class GCMIntentService extends GCMBaseIntentService {
         notification.defaults |= Notification.DEFAULT_VIBRATE;
         notificationManager.notify(0, notification);
  */
+    }
+
+    //@Override
+    public void onMessageReceived(String from, Bundle data) {
+        String message = data.getString("message");
+        Log.d(TAG, "From: " + from);
+        Log.d(TAG, "Message: " + message);
+        // Handle received message here.
     }
 
 }

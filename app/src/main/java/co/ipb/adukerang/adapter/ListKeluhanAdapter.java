@@ -89,11 +89,11 @@ public class ListKeluhanAdapter extends BaseAdapter {
         String finalStatus = tvs.getText().toString();
 
         if (finalStatus.equals("PENDING")) {
-            v_status.setBackgroundColor(Color.parseColor("#2196f3"));
+            v_status.setBackgroundColor(Color.parseColor("#D50000"));
         } else if (finalStatus.equals("PROSES")) {
             v_status.setBackgroundColor(Color.parseColor("#009688"));
         } else if (finalStatus.equals("SELESAI")) {
-            v_status.setBackgroundColor(Color.parseColor("#ff5722"));
+            v_status.setBackgroundColor(Color.parseColor("#1a237e"));
         }
 
         return convertView;

@@ -81,7 +81,7 @@ public class DashboardActivity extends AppCompatActivity {
     public static String gname;
     public static String gemail;
     GoogleCloudMessaging gcm;
-    String regId,email;
+    String regId,email,name;
     Context context;
     SharedPreferences prefs;
     @Override
@@ -113,7 +113,7 @@ public class DashboardActivity extends AppCompatActivity {
         db = new SQLiteHandler(getApplicationContext());
         session = new SessionManager(getApplicationContext());
         HashMap<String, String> user = db.getUserDetails();
-        String name = user.get("name");
+        name = user.get("name");
         email = user.get("email");
         if (!session.isLoggedIn()) {
             logoutUser();
@@ -152,7 +152,7 @@ public class DashboardActivity extends AppCompatActivity {
         });
 
         AccountHeader header = new AccountHeaderBuilder().withActivity(this).withHeaderBackground(R.drawable.side_nav_bar)
-                .addProfiles(new ProfileDrawerItem().withEmail(email).withName(name).withSelectable(false))
+                .addProfiles(new ProfileDrawerItem().withEmail(email).withName(name).withIcon(getResources().getDrawable(R.drawable.iconadukerang)))
                 .build();
 
         PrimaryDrawerItem profile = new PrimaryDrawerItem().withName(R.string.drawer_profile)

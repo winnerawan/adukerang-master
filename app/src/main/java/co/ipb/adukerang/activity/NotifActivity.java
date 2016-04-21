@@ -1,6 +1,9 @@
 package co.ipb.adukerang.activity;
 
 import android.app.ProgressDialog;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -38,6 +41,7 @@ import java.util.Map;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import co.ipb.adukerang.GCMIntentService;
 import co.ipb.adukerang.R;
 import co.ipb.adukerang.controller.AppConfig;
 import co.ipb.adukerang.controller.AppController;
@@ -65,14 +69,14 @@ public class NotifActivity extends AppCompatActivity implements View.OnClickList
     @InjectView(R.id.temporary_gcm_pengadu) TextView temp_gcm;
     @InjectView(R.id.temporary_unique_id) TextView temp_uid;
     @InjectView(R.id.temporary_id_keluhan) TextView temp_id_keluhan;
+    String n_keluhan,idk_last;
     int p;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notif);
         ButterKnife.inject(this);
-        getKeluhanBaru();
-        getGCMUser();
+
         db = new SQLiteHandler(getApplicationContext());
         session = new SessionManager(getApplicationContext());
         HashMap<String, String> user = db.getUserDetails();
@@ -95,7 +99,22 @@ public class NotifActivity extends AppCompatActivity implements View.OnClickList
         bLapor.setOnClickListener(this);
         bCancel.setOnClickListener(this);
 
+        Intent intent = getIntent();
 
+
+        Context context = getApplicationContext();
+
+        ComponentName comp =
+                new ComponentName(context.getPackageName(),
+                        GCMIntentService.class.getName());
+
+        intent.setComponent(comp);
+
+        n_keluhan = intent.getStringExtra("message");
+
+        tvKeluhan.setText(n_keluhan);
+        getKeluhanBaru();
+        getGCMUser();
 
     }
     @Override
@@ -115,7 +134,8 @@ public class NotifActivity extends AppCompatActivity implements View.OnClickList
         }
     }
     private void getKeluhanBaru() {
-        JsonArrayRequest req = new JsonArrayRequest(AppConfig.URL_TEKNISI_NOTIF,
+        JsonArrayRequest req = new JsonArrayRequest(AppConfig.URL_TEKNISI_NOTIF+tvKeluhan.getText().toString()
+                .replaceAll(" ","%20"),
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
@@ -140,7 +160,7 @@ public class NotifActivity extends AppCompatActivity implements View.OnClickList
 
                                 tvRuang.setText(id_ruangan);
                                 tvBarang.setText(id_barang);
-                                tvKeluhan.setText(keluhan);
+                                //tvKeluhan.setText(keluhan);
 
                                 if (status.equals("PROSES")) {
                                     p=0;
@@ -243,7 +263,7 @@ public class NotifActivity extends AppCompatActivity implements View.OnClickList
         getGCMUser();
         Map<String, String> data = new HashMap<String, String>();
         data.put("id", gcm_pengadu);
-        if (HttpRequest.post(AppConfig.URL_SEND_NOTIF + gcm_pengadu).form(data).created())
+        if (HttpRequest.post(AppConfig.URL_SEND_NOTIF + gcm_pengadu+"&keluhan="+n_keluhan).form(data).created())
             System.out.print("Notifications Send!");
         Log.i(TAG, data.toString());
     }
