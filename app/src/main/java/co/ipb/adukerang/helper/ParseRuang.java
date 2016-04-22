@@ -39,7 +39,7 @@ public class ParseRuang {
             JSONArray jsonArray = jsonResponse.getJSONArray("results");
             for(int i = 0; i < jsonArray.length(); i++){
                 JSONObject r = jsonArray.getJSONObject(i);
-                ListData.add(new IDRuangan(r.getString("nama_ruang"),r.getString("id_ruang")));
+                ListData.add(new IDRuangan(r.getString("id_ruang"),r.getString("nama_ruang")));
             }
         } catch (Exception e1) {
             // TODO Auto-generated catch block

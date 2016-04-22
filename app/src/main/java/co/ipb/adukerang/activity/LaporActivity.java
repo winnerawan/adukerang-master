@@ -344,7 +344,7 @@ public class LaporActivity extends AppCompatActivity implements View.OnClickList
     private void sendNotifications() {
         Map<String, String> data = new HashMap<String, String>();
         data.put("id", teknisi_gcm_regid);
-        if (HttpRequest.post(AppConfig.URL_SEND_NOTIF + teknisi_gcm_regid+""+txtKeluhan.getText().toString()).form(data).created())
+        if (HttpRequest.post(AppConfig.URL_SEND_NOTIF + teknisi_gcm_regid+"&keluhan="+txtKeluhan.getText().toString()).form(data).created())
             System.out.print("Notifications Send!");
         Log.i(TAG, data.toString());
     }
